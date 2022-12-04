@@ -18,26 +18,31 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-info">
         <div class="container">
             <a class="navbar-brand" href="index.jsp">
-                <img src="${pageContext.request.contextPath}/images/cphbusiness.png" width="400px;" class="img-fluid"/>
+                <img src="${pageContext.request.contextPath}/images/Logo/Stor-Fog-logo.png" width="150px" class="img-fluid"/>
+
             </a>
+
+
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
                     aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Page 1</a>
-                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Page 2</a>
-                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Page 3</a>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Home</a>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Carport</a>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Quick-byg</a>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">CreatUser</a>
                     <c:if test="${sessionScope.user == null }">
                         <a class="nav-item nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
                     </c:if>
                     <c:if test="${sessionScope.user != null }">
                         <a class="nav-item nav-link" href="${pageContext.request.contextPath}/logout">Log out</a>
                     </c:if>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/login.jsp"><img src="${pageContext.request.contextPath}/images/Logo/Basket.png" width="50px" class="img-fluid"/></a>
                 </div>
             </div>
         </div>
@@ -50,24 +55,51 @@
 </div>
 
 <!-- Footer -->
+
 <div class="container mt-3">
     <hr/>
     <div class="row mt-4">
         <div class="col">
-            Nørgaardsvej 30<br/>
-            2800 Lyngby
+            <h4>Kundeservice</h4>
+            <ul>
+                <li>Kontakt Fog</li>
+                <li>Fortrydelse og returnering</li>
+                <li>Fragt</li>
+                <li>Lån en trailer</li>
+                <li>Fog gavekort</li>
+            </ul>
         </div>
         <div class="col">
-            <jsp:invoke fragment="footer"/><br/>
-            <p>&copy; 2022 Cphbusiness</p>
+            <h4>Om Fog</h4>
+            <ul>
+                <li>Åbningstider</li>
+                <li>Byg bæredygtigt</li>
+                <li>Udlejning</li>
+                <li>Karriere i Fog</li>
+                <li>Persondatapolitik</li>
+            </ul>
         </div>
         <div class="col">
-            Datamatikeruddannelsen<br/>
-            2. semester efterår 2022
+            <h4>Aktuelt</h4>
+            <ul>
+                <li>Aviser og kataloger</li>
+                <li>Tilmeld nyhedsbrev</li>
+                <li>LinkedIn</li>
+                <li>Instagram</li>
+                <li>Facebook</li>
+            </ul>
+        </div>
+        <div class="col">
+            <ul>
+                <img src="${pageContext.request.contextPath}/images/Logo/Stor-Fog-logo.png" width="100px" class="img-fluid"/>
+
+                <h4>Johannes Fog A/S</h4>
+                <li>Firskovvej 20</li>
+                <li>2800 Lyngby</li>
+                <li>CVR-nr. 16314439</li>
+            </ul>
         </div>
     </div>
-
-</div>
 
 </div>
 
