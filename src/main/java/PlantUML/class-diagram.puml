@@ -1,0 +1,46 @@
+@startuml
+'https://plantuml.com/class-diagram
+class User
+class Admin
+class Fog
+class Product
+class Ordre
+
+User : UserId int
+User : User-role string
+User : Name string
+User : Adresse string
+User : Postkode Int
+User : Email string
+User : Phone int
+
+Product : ProductId
+Product : Name string
+Product : Model int
+Product : Længde int
+Product : Bredde int
+Product : Price int
+
+Ordre : OrdreId int
+Ordre : UserId int
+Ordre : ProductId int
+
+Fog : FogId int
+Fog : UserId
+Fog : OrdreId
+
+Admin : AdminId
+Admin : UserId
+Admin : ProductId
+
+User --> Product
+Product --> Ordre
+
+Fog <--> Admin
+Admin --> User
+Admin --> Product
+Fog <--> Ordre
+Fog <--> User
+
+
+@enduml
