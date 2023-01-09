@@ -3,111 +3,86 @@ package dat.backend.persistence;
 import dat.backend.model.entities.User;
 import dat.backend.model.exceptions.DatabaseException;
 import dat.backend.model.persistence.ConnectionPool;
-import dat.backend.model.persistence.UserFacade;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class UserMapperTest
+ class UserMapper
 {
-    // TODO: Change mysql login credentials if needed below
 
-    private final static String USER = "root";
-    private final static String PASSWORD = "root";
-    private final static String URL = "jdbc:mysql://localhost:3306/carport_test?serverTimezone=CET&allowPublicKeyRetrieval=true&useSSL=false";
-
-    private static ConnectionPool connectionPool;
-
-    @BeforeAll
-    public static void setUpClass()
+    static ConnectionPool connectionPool;
+    private UserMapper(ConnectionPool connectionPool){
+        this.connectionPool = connectionPool;
+    }
+    static User login(String username, String password, ConnectionPool connectionPool) throws DatabaseException
     {
-        connectionPool = new ConnectionPool(USER, PASSWORD, URL);
+        Logger.getLogger("web").log(Level.INFO, "");
 
-        try (Connection testConnection = connectionPool.getConnection())
+        User user = null;
+
+        String sql = "SELECT * FROM user WHERE username = ? AND password = ?";
+
+        try (Connection connection = connectionPool.getConnection())
         {
-            try (Statement stmt = testConnection.createStatement())
+            try (PreparedStatement ps = connection.prepareStatement(sql))
             {
-                // Create test database - if not exist
-                stmt.execute("CREATE DATABASE  IF NOT EXISTS carport_test;");
+                ps.setString(1, username);
+                ps.setString(2, password);
+                ResultSet rs = ps.executeQuery();
+                if (rs.next())
+                {
+                    String role = rs.getString("role");
+                    String name = rs.getString("name");
+                    String address = rs.getString("adresse");
+                    String email = rs.getString("email");
+                    int tlfNmr = rs.getInt("tlf");
+                    user = new User(username, password, role, name, address, email, tlfNmr);
+                } else
+                {
+                    throw new DatabaseException("Wrong username or password");
+                }
+            }
+        } catch (SQLException ex)
 
-                // TODO: Create user table. Add your own tables here
-                stmt.execute("CREATE TABLE IF NOT EXISTS carport_test.user LIKE carport.user;");
+        {
+            throw new DatabaseException(ex, "Error logging in. Something went wrong with the database");
+        }
+        return user;
+    }
+
+    public static User createUser(String username, String password, String role, String name, String adresse, String email, int tlf) throws DatabaseException
+    {
+        Logger.getLogger("web").log(Level.INFO, "");
+        User user = null;
+        String sql = "insert into carport.user (username, password, role , name, adresse, email, tlf ) values (?,?,?,?,?,?,?)";
+        try (Connection connection = connectionPool.getConnection())
+        {
+            try (PreparedStatement ps = connection.prepareStatement(sql))
+            {
+                ps.setString(1, username);
+                ps.setString(2, password);
+                ps.setString(3, role);
+                ps.setString(4, name);
+                ps.setString(5, adresse);
+                ps.setString(6, email);
+                ps.setInt(7, tlf);
+                int rowsAffected = ps.executeUpdate();
+                if(rowsAffected == 1){
+                    user = new User(username, password, role, name, adresse, email,tlf);
+                }else{
+                    throw new DatabaseException("The user with username = " + username + " could not be inserted into the database");
+                }
+
+
             }
         }
-        catch (SQLException throwables)
+        catch (SQLException ex)
         {
-            System.out.println(throwables.getMessage());
-            fail("Database connection failed");
+            throw new DatabaseException(ex, "Could not insert username into database");
         }
+        return user;
     }
 
-    @BeforeEach
-    void setUp()
-    {
-        try (Connection testConnection = connectionPool.getConnection())
-        {
-            try (Statement stmt = testConnection.createStatement())
-            {
-                // TODO: Remove all rows from all tables - add your own tables here
-                stmt.execute("delete from user");
 
-                // TODO: Insert a few users - insert rows into your own tables here
-                stmt.execute("insert into user (username, password, role) " +
-                        "values ('user','1234','user'),('admin','1234','admin'), ('ben','1234','user')");
-            }
-        }
-        catch (SQLException throwables)
-        {
-            System.out.println(throwables.getMessage());
-            fail("Database connection failed");
-        }
-    }
-
-    @Test
-    void testConnection() throws SQLException
-    {
-        Connection connection = connectionPool.getConnection();
-        assertNotNull(connection);
-        if (connection != null)
-        {
-            connection.close();
-        }
-    }
-
-    @Test
-    void login() throws DatabaseException
-    {
-        User expectedUser = new User("user", "1234", "user");
-        User actualUser = UserFacade.login("user", "1234", connectionPool);
-        assertEquals(expectedUser, actualUser);
-    }
-
-    @Test
-    void invalidPasswordLogin() throws DatabaseException
-    {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("user", "123", connectionPool));
-    }
-
-    @Test
-    void invalidUserNameLogin() throws DatabaseException
-    {
-        assertThrows(DatabaseException.class, () -> UserFacade.login("bob", "1234", connectionPool));
-    }
-
-    @Test
-    void createUser() throws DatabaseException
-    {
-        User newUser = UserFacade.createUser("jill", "1234", "user", connectionPool);
-        User logInUser = UserFacade.login("jill", "1234", connectionPool);
-        User expectedUser = new User("jill", "1234", "user");
-        assertEquals(expectedUser, newUser);
-        assertEquals(expectedUser, logInUser);
-
-    }
 }

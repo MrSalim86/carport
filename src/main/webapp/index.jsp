@@ -14,25 +14,35 @@
 
     <jsp:body>
 
-        <p>Startstedet For Fog Project</p>
-
-        <div class="container mt-3">
-        <hr/>
-        <div class="row mt-4">
-        <div class="col">
-
-            <ul>
-                <h4>Carport</h4>
-                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/login.jsp"><img src="${pageContext.request.contextPath}/images/Net-image/CarportMedTag.png" width="350px" height="300px" class="img-fluid"/></a>
-            </ul>
+        <div class="container">
+            <div class="card w-50 mx-auto my-5">
+                <h2 class="card-header text-center" style="background: lightskyblue">Velkommen</h2>
+                <div class="card-body" style="background: lightskyblue">
+                    <form action="login.jsp" method="post">
+                        <div class="w3-container w3-blue">
+                            <div class="text-center">
+                                <h1>Log venligst på systemet først</h1>
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary">Login</button>
+                            </div>
+                    </form>
+                </div>
+                <br>
+                <div class="text-center">
+                    <h6>Eller opret dig her</h6>
+                </div>
+                <br>
+                <form action="createUser.jsp" method="post">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">CreatUser</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="col">
 
-            <ul>
-                <h4>QuickByg</h4>
-                <a class="nav-item nav-link" href="${pageContext.request.contextPath}/login.jsp"><img src="${pageContext.request.contextPath}/images/Net-image/QuckByg.png" width="250px" height="200px" class="img-fluid"/></a>
-            </ul>
-        </div>
+
 
     </jsp:body>
 

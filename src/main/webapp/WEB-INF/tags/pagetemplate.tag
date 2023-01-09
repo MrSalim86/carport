@@ -34,7 +34,7 @@
                 <div class="navbar-nav">
                     <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Home</a>
                     <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Carport</a>
-                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">Quick-byg</a>
+                    <a class="nav-item nav-link" href="${pageContext.request.contextPath}/registerServlet">Quick-byg</a>
                     <a class="nav-item nav-link" href="${pageContext.request.contextPath}/">CreatUser</a>
                     <c:if test="${sessionScope.user == null }">
                         <a class="nav-item nav-link" href="${pageContext.request.contextPath}/login.jsp">Login</a>
@@ -62,11 +62,22 @@
         <div class="col">
             <h4>Kundeservice</h4>
             <ul>
-                <li>Kontakt Fog</li>
-                <li>Fortrydelse og returnering</li>
-                <li>Fragt</li>
-                <li>Lån en trailer</li>
-                <li>Fog gavekort</li>
+
+                <li>
+                    <a href="https://www.johannesfog.dk/om-fog/forretninger/kontakt">Kontakt Fog</a>
+                </li>
+                <li>
+                    <a href="https://www.johannesfog.dk/om-fog/kundeservice/fortrydelse-og-returnering">Fortrydelse og returnering</a>
+                </li>
+                <li>
+                    <a href="https://www.johannesfog.dk/om-fog/kundeservice/fragt">Fragt</a>
+                </li>
+                <li>
+                    <a href="https://www.johannesfog.dk/om-fog/service/laan-en-trailer">Lån en trailer</a>
+                </li>
+                <li>
+                    <a href="https://gavekort.johannesfog.dk/">Fog gavekort</a>
+                </li>
             </ul>
         </div>
         <div class="col">
